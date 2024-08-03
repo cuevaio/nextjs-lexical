@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +27,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body className={inter.className}>
-        <main className="text-base bg-background/95 text-foreground">
-          {children}
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="text-base bg-background/95 text-foreground">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

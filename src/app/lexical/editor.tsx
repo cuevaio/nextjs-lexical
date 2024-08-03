@@ -19,6 +19,9 @@ import NotificationsPopover from "../notifications-popover";
 import Loading from "../loading";
 import { useThreads } from "@liveblocks/react/suspense";
 import { useIsMobile } from "./use-is-mobile";
+import { ModeToggle } from "@/components/mode-toggle";
+import Toolbar from "./toolbar";
+import React from "react";
 
 // Wrap your initial config with `liveblocksConfig`
 const initialConfig = liveblocksConfig({
@@ -32,9 +35,13 @@ const initialConfig = liveblocksConfig({
 
 export default function Editor() {
   const status = useEditorStatus();
+  React.useEffect(() => {
+    console.log(status);
+  }, [status]);
 
   return (
     <div className="relative min-h-screen flex flex-col">
+      <ModeToggle />
       <LexicalComposer initialConfig={initialConfig}>
         <LiveblocksPlugin>
           {status === "not-loaded" || status === "loading" ? (
@@ -42,12 +49,13 @@ export default function Editor() {
           ) : (
             <>
               <div className="h-[60px] flex items-center justify-end px-4 border-b border-border/80 bg-background">
+                <Toolbar />
                 <NotificationsPopover />
               </div>
 
               <div className="relative flex flex-row justify-between w-full py-16 xl:pl-[250px] pl-[100px] gap-[50px]">
                 {/* Editable */}
-                <div className="relative flex flex-1">
+                <div className="relative flex flex-1 border-x p-4">
                   <RichTextPlugin
                     contentEditable={
                       <ContentEditable className="outline-none flex-1 transition-all" />
